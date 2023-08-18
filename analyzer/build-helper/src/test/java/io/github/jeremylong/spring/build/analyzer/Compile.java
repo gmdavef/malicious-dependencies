@@ -41,12 +41,20 @@ public class Compile {
 
         Class appListenter = Class.forName("org.springframework.context.ApplicationListener");
         String springCP = appListenter.getProtectionDomain().getCodeSource().getLocation().toString().substring(5);
+
+        // DF: added the following for Windows compatibility
+        if ( springCP.startsWith("/C") )
+			springCP = springCP.substring(1);
+
         List<String> options = new ArrayList<String>();
         options.add("-classpath");
         String currentDir = new File(".").getAbsolutePath();
         String classpath = currentDir + File.separator + "target" + File.separator + "classes"
                 + System.getProperty("path.separator") + System.getProperty("java.class.path")
                 + System.getProperty("path.separator") + springCP;
+
+		// DF: debugging
+        System.out.println("DF-DEBUG: " + classpath);
 
         options.add(classpath);
 
